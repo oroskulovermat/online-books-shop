@@ -9,8 +9,6 @@ import it from "./../../img/ititit.jpg"
 
 const CategoryCart = ({el}) => {
     console.log("img",el.id)
-
-
     return (
 
         <div className="mx-5">

@@ -79,7 +79,7 @@ const Home = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 ">
+        <div className="min-h-screen bg-gray-200 ">
             <div className="w-full bg-gray-300">
                 <div className="container  w-[80%] h-full mx-auto">
                     <Slider
@@ -105,7 +105,7 @@ const Home = () => {
             <div className=" container mx-auto p-10 flex-col md:flex-row items-center mx-auto font-inter">
                 <h1 className="pl-4 sm:text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Категории</h1>
 
-                <div className=" w-full">
+                <div className="  w-full">
                     <Slider
                         {...categorySettings}>
                         {
@@ -118,14 +118,16 @@ const Home = () => {
                     </Slider>
                 </div>
 
-                <div className="flex justify-center py-5">
-                    <h1 className="sm:flex text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
+                <div className="container  sm:flex grid-cols-1    py-5">
+                    <h1 className=" sm:flex grid-cols-1 text-center   md:text-center grid-cols-2 flex justify-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
                         Вам понравится</h1>
                     <div className="flex justify-center">
-                        <div className=" text-[#010049]">
+                        <div className="flex justify-center  w-full text-[#010049]">
                             <select
                                 onChange={(e)=> handleSelect(e)}
                                 className="form-select
+                                h-[40px]
+                                w-[180px]
                                     text-[#010049]
                                     block
                                     w-full

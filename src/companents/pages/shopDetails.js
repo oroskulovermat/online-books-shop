@@ -18,6 +18,9 @@ const ShopDetails = () => {
     const basketItems = basket.filter(basket => basket.id === prodDetail.id)
 
     useEffect(() => {
+        window.scroll(0,0)
+    })
+    useEffect(() => {
         dispatch(getCategoryList())
         dispatch(getProdDetail(id))
         dispatch(getProdList())

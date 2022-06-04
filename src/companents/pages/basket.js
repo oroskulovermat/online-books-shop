@@ -122,7 +122,7 @@ const Basket = () => {
                             </div>
 
 
-                            <div className="mx-12 w-5/12">
+                            <div className="overflow-y-scroll h-1/2 mx-12 w-5/12">
                                 {
                                     el.map((el, idx) => (
                                         <div className="py-3" key={el.id}>

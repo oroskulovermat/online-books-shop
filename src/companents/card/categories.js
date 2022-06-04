@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getCategory, getCategoryList, getProdList} from "../../redux/action/action";
+import psi from "../../img/psiholog940.jpg";
+import reli from "../../img/religion.jpg";
+import it from "../../img/ititit.jpg";
+import buss from "../../img/Business (2).jpg";
 const Categories = () => {
     const {idCategory} = useParams()
     const dispatch = useDispatch()
@@ -9,6 +13,7 @@ const Categories = () => {
     const {shopIdCategory : cateqory} = useSelector(s => s)
 
     useEffect(()=>{
+        window.scroll(0,0)
         dispatch(getCategory(idCategory))
         dispatch(getProdList())
         dispatch(getCategoryList())
