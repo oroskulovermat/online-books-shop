@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import { getCategoryList, getProdList} from "../redux/action/action";
-import BooksCard from "./card/booksCard";
+import { getCategoryList, getProdList} from "../../redux/action/action";
+import BooksCard from "../card/booksCard";
 import Slider from "react-slick";
-import Bg from "./../img/image 112.png"
-import CategoryCart from "./card/categoryCart";
-import {GET_SHOP_PRODUCT_LIST} from "../redux/type/type";
-import {PublicApi} from "../API/api";
+import Bg from "../../img/image 112.png"
+import Bg2 from "../../img/1455.webp"
+import Bg3 from "../../img/ititit.jpg"
+import CategoryCart from "../card/categoryCart";
+import {GET_SHOP_PRODUCT_LIST} from "../../redux/type/type";
+import {PublicApi} from "../../API/api";
 
 
 const Home = () => {
     const dispatch = useDispatch()
     const {shopProductList: product} = useSelector(s => s)
     const {shopListCategory: category} = useSelector(s => s)
+    console.log(category)
 
     useEffect(() => {
         dispatch(getProdList())
@@ -31,6 +34,7 @@ const Home = () => {
     
 
     const settings = {
+        background: true,
         dots: true,
         infinite: true,
         speed: 500,
@@ -75,12 +79,12 @@ const Home = () => {
 
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-gray-100 ">
             <div className="w-full bg-gray-300">
-                <div className="container w-full mx-auto">
+                <div className="container  w-[80%] h-full mx-auto">
                     <Slider
-                        {...settings}>
-                        <div className="text-gray-900 font-bold text-center text-2xl w-full">
+                        {...settings} >
+                        <div className=" text-gray-900 font-bold text-center text-2xl ">
                             <img src={Bg} alt=""/>
                             1
                         </div>
@@ -114,14 +118,14 @@ const Home = () => {
                     </Slider>
                 </div>
 
-                <div className="flex justify-between py-5">
-                    <h1 className="pl-4 sm:text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
+                <div className="flex justify-center py-5">
+                    <h1 className="sm:flex text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
                         Вам понравится</h1>
                     <div className="flex justify-center">
-                        <div className="w-96 text-[#010049]">
+                        <div className=" text-[#010049]">
                             <select
                                 onChange={(e)=> handleSelect(e)}
-                                className="form-select appearance-none
+                                className="form-select
                                     text-[#010049]
                                     block
                                     w-full
@@ -137,7 +141,7 @@ const Home = () => {
                                     m-0
                                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
                                 <option value="">Сортировка</option>
-                                <option value="title">А - Я</option>
+                                <option value="title">А-Я</option>
                                 <option value="-title">Я - A</option>
                                 <option value="-price">Дорогие</option>
                                 <option value="price">Дешевые</option>
@@ -145,11 +149,10 @@ const Home = () => {
                             </select>
                         </div>
                         <div>
-                            <p></p>
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-between flex-wrap">
+                <div className="flex justify-around flex-wrap">
                     {
                         product.map(el => (
                             <div

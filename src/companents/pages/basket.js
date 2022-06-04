@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addToBasket, DecreaseToBasket, RemoveProductBasket} from "../redux/action/action";
-import {PublicApi} from "../API/api";
+import {addToBasket, DecreaseToBasket, RemoveProductBasket} from "../../redux/action/action";
+import {PublicApi} from "../../API/api";
 import {useForm} from 'react-hook-form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faTrashCan} from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,17 @@ import { faTrashCan} from "@fortawesome/free-solid-svg-icons";
 const Basket = () => {
     const {basket: el} = useSelector(s => s)
     const {register, handleSubmit, formState: {errors}} = useForm();
+
+    const [price ,  setPrice] = useState(0)
+
+
+    useEffect(() => {
+        setPrice(el.reduce((acc , el) => {
+            return el.quantity * el.price + acc
+        },0))
+
+    })
+
     const onSubmit = data => {
         PublicApi.post('contact/', data)
             .then(response => {
@@ -26,9 +37,13 @@ const Basket = () => {
     return (
         <div className="min-h-screen">
             <div className="container mx-auto">
-                <p className="pt-6 pb-16">Главная / Корзина / Оформление заказа</p>
                 {
-                    el.length === 0 ? <div>Корзина пусто!!!</div> :
+                    el.length === 0 ? '' :
+                        <p className="pt-6 pb-16">Главная / Корзина / Оформление заказа</p>
+                }
+                {
+                    el.length === 0 ? <div className='text-gray-800 text-5xl mt-10 text-center' >Корзина пусто!!!</div>
+                        :
                         <div className="flex justify-between">
                             <div className="bg-white">
                                 <form
@@ -44,7 +59,7 @@ const Basket = () => {
                                         })} />
                                         <input
                                             className="mb-32 border-2 border-[#010049] text-[#010049] rounded w-full py-2 px-3 outline-none my-2"
-                                            type="tel" placeholder="Телефон*" {...register("Mobile number", {
+                                            type="tel" placeholder="Телефон*" {...register("number", {
                                             required: true,
                                             minLength: 6
                                         })} />
@@ -71,7 +86,7 @@ const Basket = () => {
                                         </div>
                                     </div>
 
-                                    <div className="w-5/12">
+                                    <div className=" w-5/12">
                                         <h1 className="text-[#010049] text-3xl font-bold font-nunito pb-2">Доставка</h1>
                                         <p className="text-gray-500 font-nunito pb-2">Выберите удобный способ доставки для этого заказа.</p>
                                         <div className="flex pb-5">
@@ -89,16 +104,16 @@ const Basket = () => {
                                             <p className="text-[#010049] font-nunito text-base">Доставка курьером</p>
                                         </div>
                                         <input
-                                            className="mb-32 border-2 border-[#010049] text-[#010049] rounded w-full h-36 pb-24 px-3 outline-none my-2"
+                                            className="mb-20 border-2 border-[#010049] text-[#010049] rounded w-full h-36 pb-24 px-3 outline-none my-2"
                                             type="text" placeholder="Область, город (район, село), улица, дом№, кв.№*" {...register("address", {
                                             required: true,
                                             minLength: 1
                                         })} />
 
-                                        <div className="bg-[#010049] py-3 px-5 text-white">
+                                        <div className="mb-10 bg-[#010049] py-3 px-5 text-white">
                                             <div className="flex justify-between">
                                                 <p>Общая сумма</p>
-                                                {el.map(data => data.price ? data.price * data.quantity : "")} сом
+                                               <p> {price} сом</p>
                                             </div>
                                             <p className="text-center pt-5">Оплачено</p>
                                         </div>
@@ -107,7 +122,7 @@ const Basket = () => {
                             </div>
 
 
-                            <div className="w-5/12">
+                            <div className="mx-12 w-5/12">
                                 {
                                     el.map((el, idx) => (
                                         <div className="py-3" key={el.id}>
@@ -122,17 +137,18 @@ const Basket = () => {
                                                         <p className="text-[#010049] text-2xl font-nunito ">{el.title}</p>
                                                         <p className="text-[#010049] text-2xl font-nunito ">${el.price * el.quantity}</p>
                                                         <span className="border border-[#010049] w-24 flex justify-between">
-                                                    <button
-                                                        className="bg-[#010049] px-2 text-white"
-                                                        onClick={() => dispatch(addToBasket(el))}>+</button>
-                                                            <span className="text-[#010049] text-white">{el.quantity}</span>
-                                                            {
-                                                                el.quantity === 1 ? <button
-                                                                        className="bg-[#010049] text-white px-2">-</button> :
+                                                 {
+                                                     el.quantity === 1 ?    <button
+                                                             className="bg-[#010049] text-white px-2 w-1/4">  </button>
+                                                         :
+                                                         <button
+                                                     className="bg-[#010049] text-white px-2"
+                                                     onClick={() => dispatch(DecreaseToBasket(idx))}>-</button>
+                                                 }
+                                                            <span className="text-[#010049] text-center ">{el.quantity}</span>
                                                                     <button
-                                                                        className="bg-[#010049] text-white px-2"
-                                                                        onClick={() => dispatch(DecreaseToBasket(idx))}>-</button>
-                                                            }
+                                                                        className="bg-[#010049] px-2 text-white"
+                                                                        onClick={() => dispatch(addToBasket(el))}>+</button>
                                                     </span>
                                                         <button
                                                             onClick={() => dispatch(RemoveProductBasket(el.id))}

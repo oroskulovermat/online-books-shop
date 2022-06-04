@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addToBasket, getCategoryList, getProdDetail, getProdList} from "../redux/action/action";
+import {addToBasket, getCategoryList, getProdDetail, getProdList} from "../../redux/action/action";
 import {faBagShopping, faCheck} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import BooksCard from "./card/booksCard";
+import BooksCard from "../card/booksCard";
 import Slider from "react-slick";
 
 const ShopDetails = () => {
@@ -15,7 +15,7 @@ const ShopDetails = () => {
     const {shopListCategory: category} = useSelector(s => s)
 
     const {basket} = useSelector(s => s)
-    const basketItems = basket.some(basket => basket.id === prodDetail.id)
+    const basketItems = basket.filter(basket => basket.id === prodDetail.id)
 
     useEffect(() => {
         dispatch(getCategoryList())
@@ -59,9 +59,9 @@ const ShopDetails = () => {
     };
 
     return (
-        <div className="container mx-auto">
-            <div className="flex flex-row mt-9 pb-20">
-                <div className="basis-1/4">
+        <div className="mx-auto bg-gray-300">
+            <div className="container flex flex-row pb-20">
+                <div className="mx-auto basis-1/4">
                     <img src={prodDetail.image}
                          className="w-96 h-[100%] object-cover rounded-md " alt="images"/>
                 </div>
@@ -69,7 +69,7 @@ const ShopDetails = () => {
                     <h1 className="text-4xl font-medium w-9/12 font-nunito text-[#010049]">{prodDetail.title}</h1>
                     <p className="text-2xl font-bold w-9/12 font-nunito text-[#010049]">{prodDetail.price} сом</p>
                     <div className="flex font-nunito sm:text-center md:text-center lg:text-left xl:text-left text-xl w-full py-5 font-medium text-gray-500">
-                        Жанры : {category.map(el => (
+                        Жанр : {category.map(el => (
                         <p className="ml-1">{el.id === prodDetail.category ? el.title : ""}</p>))}
                     </div>
                     <div className="font-nunito sm:text-center md:text-center lg:text-left xl:text-left text-xl w-full py-5 font-medium text-gray-500">
@@ -85,24 +85,29 @@ const ShopDetails = () => {
                                 onClick={() => dispatch(addToBasket(prodDetail))}
                             >добавить в корзину</button>
                         }
-                        <button className="border-2 border-[#010049] text-[#010049] hover:bg-[#010049] hover:text-white font-bold py-2 px-4 rounded my-4"
-                        >Купить сейчас</button>
+                        <Link to='/shop-basket' >
+                            <button className="w-full border-2 border-[#010049] text-[#010049] hover:bg-[#010049] hover:text-white font-bold py-2 px-4 rounded my-4"
+                                    onClick={() => dispatch(addToBasket(prodDetail))}
+                            >Купить сейчас</button>
+                        </Link>
                     </div>
                 </div>
             </div>
 
-            <h1 className="font-nunito pl-4 sm:text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
-                Вам понравится</h1>
-            <Slider
-                {...categorySettings}>
-                {
-                    product.map(el => (
-                        <div key={el.id}>
-                            <BooksCard el={el} />
-                        </div>
-                    ))
-                }
-            </Slider>
+            <div className='container w-[80%] mx-auto  '>
+                <h1 className="container  font-nunito pl-4 sm:text-center md:text-center lg:text-left xl:text-left text-3xl w-full text-black py-5 font-bold text-[#010049]">Возможно,
+                    Вам понравится</h1>
+                <Slider
+                    {...categorySettings}>
+                    {
+                        product.map(el => (
+                            <div key={el.id}>
+                                <BooksCard el={el} />
+                            </div>
+                        ))
+                    }
+                </Slider>
+            </div>
         </div>
     );
 };

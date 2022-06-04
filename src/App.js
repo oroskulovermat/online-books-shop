@@ -1,10 +1,10 @@
 import React from 'react';
 import {Routes, Route} from "react-router-dom"
-import Home from "./companents/home";
-import Header from "./companents/header";
-import Footer from "./companents/footer";
-import ShopDetails from "./companents/shopDetails";
-import Basket from "./companents/basket";
+import Home from "./companents/pages/home";
+import Header from "./companents/pages/header";
+import Footer from "./companents/pages/footer";
+import ShopDetails from "./companents/pages/shopDetails";
+import Basket from "./companents/pages/basket";
 import Categories from "./companents/card/categories";
 
 
